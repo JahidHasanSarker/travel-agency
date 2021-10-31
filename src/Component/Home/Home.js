@@ -1,4 +1,3 @@
-
 import Banner from '../Banner/Banner';
 import TravelService from '../TravelService/TravelService';
 import Team from '../Team/Team';
@@ -6,7 +5,7 @@ import About from '../About/About';
 import Contact from '../Contact/Contact';
 import { useEffect, useState } from 'react';
 import BounceLoader from "react-spinners/BounceLoader";
-
+import './Home.css';
 
 
 
@@ -32,7 +31,7 @@ const Home = () => {
         <div>
             {
                 loading ? 
-                <div className="mx-auto"><BounceLoader  color={"#f37a24"} css={mystyle} loading={loading} size={50} /></div>
+                <div className="spin-space"><BounceLoader  color={"#f37a24"} css={mystyle} loading={loading} size={50} /></div>
                 :
 
             <div>
