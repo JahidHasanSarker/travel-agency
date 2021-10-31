@@ -11,7 +11,7 @@ const OrderPlaced = () => {
 
     const { register, handleSubmit, reset, formState: { errors } } = useForm();
     const onSubmit = data => {
-        axios.post('http://localhost:5000/orders', data)
+        axios.post('https://pacific-crag-75218.herokuapp.com/orders', data)
             .then(res => {
                 if (res.data.insertedId) {
                 alert('Thank You for Booking');
@@ -22,7 +22,7 @@ const OrderPlaced = () => {
 
 
     useEffect(()=>{
-        fetch(`http://localhost:5000/services`)
+        fetch(`https://pacific-crag-75218.herokuapp.com/services`)
         .then(res => res.json())
         .then(data => setData(data))
         

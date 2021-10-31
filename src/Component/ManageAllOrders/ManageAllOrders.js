@@ -9,7 +9,7 @@ const ManageAllOrders = () => {
     const [orders, setOrders] = useState([]);
 
     useEffect(() => {
-        fetch('http://localhost:5000/orders')
+        fetch('https://pacific-crag-75218.herokuapp.com/orders')
         .then(res => res.json())
         .then(data => setOrders(data))
     }, [])
@@ -20,7 +20,7 @@ const ManageAllOrders = () => {
 
         const proceed = window.confirm('Are you Sure you want to deleted ?')
             if (proceed) {
-                axios.delete(`http://localhost:5000/orders/${id}`)
+                axios.delete(`https://pacific-crag-75218.herokuapp.com/orders/${id}`)
             .then(res => {
                 if (res.data.deletedCount > 0) {
                     alert('deleted successfully');

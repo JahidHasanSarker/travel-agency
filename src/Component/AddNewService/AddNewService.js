@@ -7,7 +7,7 @@ import './AddNewService.css';
 const AddNewService = () => {
     const { register, handleSubmit, reset } = useForm();
     const onSubmit = data => {
-        axios.post('http://localhost:5000/services', data)
+        axios.post('https://pacific-crag-75218.herokuapp.com/services', data)
         .then(res => {
             if (res.data.insertedId) {
                 alert('Data Inserted SuccessFully');
