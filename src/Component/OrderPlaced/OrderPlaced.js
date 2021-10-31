@@ -11,6 +11,7 @@ const OrderPlaced = () => {
 
     const { register, handleSubmit, reset, formState: { errors } } = useForm();
     const onSubmit = data => {
+        data.status = 'Pending';
         axios.post('https://pacific-crag-75218.herokuapp.com/orders', data)
             .then(res => {
                 if (res.data.insertedId) {
@@ -18,6 +19,8 @@ const OrderPlaced = () => {
                 reset();
         }
     })
+
+
     };
 
 

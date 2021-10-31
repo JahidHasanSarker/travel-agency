@@ -1,9 +1,41 @@
-import React from 'react';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 import { Button, Container, Table } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import useAuth from '../../Hook/useAuth';
 import './MyOrders.css';
 
 const MyOrders = () => {
+
+
+    const { user } = useAuth();
+    const [services, setServices] = useState([]);
+        useEffect(() => {
+          fetch("https://pacific-crag-75218.herokuapp.com/orders")
+            .then(response => response.json())
+            .then(data => setServices(data));
+        }, []);
+
+        const handleDeleteOrder = (id) => {
+            console.log(id);
+        
+            const proceed = window.confirm('Are you Sure you want to delted ?')
+            if (proceed) {
+                axios.delete(`https://pacific-crag-75218.herokuapp.com/orders/${id}`)
+            .then(res => {
+                if (res.data.deletedCount > 0) {
+                    alert('deleted successfully');
+                    const remainingUser = services.filter(service => service._id !== id)
+                    setServices(remainingUser); 
+    
+                }
+            })
+            }
+          };
+
+
+
+
+
     return (
         <div className ="my-5">
             <Container>
@@ -16,19 +48,26 @@ const MyOrders = () => {
                         <th>Address</th>
                         <th>Destination</th>
                         <th>Action</th>
+                        <th>Status</th>
+
                         </tr>
                     </thead>
                     <tbody>
+                   {
+                       services.filter(service => service.email === user.email).map((service, index) =>  
                         <tr>
-                            <td>1</td>
-                            <td>Jahid Hasan</td>
-                            <td>jahidhasan1695@email.com</td>
-                            <td>Dhaka, Bangladesh</td>
-                            <td>Turkey</td>
-                            <td><Link to={`/orderPlaced/`}><Button variant="info">Edit</Button></Link></td>
+                            <td>{index + 1}</td>
+                            <td>{service.name}</td>
+                            <td>{service.email}</td>
+                            <td>{service.address}</td>
+                            <td>{service.destination}</td>
+                            <td><Button variant="danger" onClick={() => handleDeleteOrder(service._id)}>Delete</Button></td>
+                            <td>{service.status}</td>
 
                         </tr>
-                    </tbody>
+                    )
+                }
+                </tbody>
                 </Table>
            </Container>
         </div>

@@ -1,76 +1,74 @@
-import { Button } from 'react-bootstrap';
+import { Button, Col, Row } from 'react-bootstrap';
 import useAuth from '../../Hook/useAuth';
 import { useHistory, useLocation } from "react-router";
+import authInit from './firebase/firebase.init';
 import './Login.css';
+import { getAuth } from '@firebase/auth';
 
+authInit();
 
 const Login = () => {
 
-    const {googleSignIn, toggolLogin, isLogin, handleNameChange, handleEmailChange, handlePasswordChange,handleregister, isLoading, error} = useAuth();
+    const {auth} = getAuth();
 
-    const location = useLocation();
-    const history = useHistory();
-    const redirect_uri = location.state?.from || '/'
-    console.log('came from', location.state?.from);
+const {signInUsingGoogle, setLoading} = useAuth();
+const location = useLocation();
+const history = useHistory();
+const redirect_uri = location.state?.from || '/'
+console.log('came from', location.state?.from);
 
-    const handleGoogle = () => {
-        googleSignIn()
-            
-                history.push(redirect_uri)
-           
-    //         .catch((err) => console.log(err))
-    //         .finaly(() => {
-    //             isLoading(false)
-    //         })
-     }
+const handleGoogleLogin = () => {
+    signInUsingGoogle()
+    .then(result =>{
+      setLoading(true)
+        history.push(redirect_uri)
+    })
+    .catch((err) => console.log(err))
+    .finally(() => {
+      setLoading(false);
+    });
+}
 
     return (
-
-        <div className="maincontainer">
-        <div className="container-fluid">
-            <div className="row no-gutter">
-               
-                <div className="col-md-6 d-none d-md-flex bg-image"></div>
-                
-                <div className="col-md-6 bg-light">
-                    <div className="login d-flex align-items-center py-5">
-                       
-                        <div className="container">
-                            <div className="row">
-                                <div className="col-lg-10 col-xl-7 mx-auto">
-                                    <h3 className="display-4">Please {isLogin ? 'login' : 'register'}</h3>
-                                    <p className="text-muted mb-4">Enter your personal details and start journey with us</p>
-                                    <form onSubmit={handleregister}>
-                                        {!isLogin && <div className="mb-3">
-                                            <input onBlur={handleNameChange} type="text" placeholder="Your Name" required="" autoFocus="" className="form-control rounded-pill border-0 shadow-sm px-4" />
-                                        </div>}
-                                        <div className="mb-3">
-                                            <input onBlur={handleEmailChange} id="inputEmail" type="email" placeholder="Email address" required="" autoFocus="" className="form-control rounded-pill border-0 shadow-sm px-4" />
-                                        </div>
-                                        <div onBlur={handlePasswordChange} className="mb-3">
-                                            <input id="inputPassword" type="password" placeholder="Password" required="" className="form-control rounded-pill border-0 shadow-sm px-4 text-primary" />
-                                        </div>
-                                        <div className="text-danger pb-3">{error}</div>
-                                        <div className="form-check">
-                                            <input onChange={toggolLogin} id="customCheck1" type="checkbox" className="form-check-input" />
-                                            <label htmlFor="customCheck1" className="form-check-label">Allready Registerd </label>
-                                        </div>
-                                        <div className="d-grid gap-2 mt-2">
-                                        <Button type='submit' variant="outline-primary" className=" btn-block text-capitalize mb-2 rounded-pill shadow-sm">{isLogin? 'Sign in' : 'Sign up'}</Button>
-                                        </div>
-                                        <div className="d-grid gap-2 mt-2">
-                                        <Button onClick={handleGoogle}  variant="primary" className="btn-block text-capitalize mb-2 rounded-pill shadow-sm">Google Sign in</Button>
-                                        </div>
-                                        
-                                    </form>
+            <div className="login-space">
+                <Row>
+                            <Col sm={7}>
+                            <div className="d-flex justify-content-center align-items-center my-3 ">
+                            <div className=" py-4 px-4 rounded shadow" style={{ marginTop: "100px"}}>
+                            <form className="mx-auto ">
+                            <h3 className="text-danger mb-4 text-center">Login</h3>
+                            <div className="row mb-3">
+                                <label htmlFor="inputEmail3" className="col-sm-3 col-form-label">Email</label>
+                                <div className="col-sm-9">
+                                <input type="email" className="form-control" id="inputEmail3" placeholder="example@email.com"required />
                                 </div>
                             </div>
-                        </div>
+                            <div className="row mb-3">
+                                <label htmlFor="inputPassword3" className="col-sm-3 col-form-label">Password</label>
+                                <div className="col-sm-9">
+                                <input type="password" className="form-control" id="inputPassword3" placeholder="Your Password" required />
+                                </div>
+                            </div>
+                            <div className="my-4 d-flex justify-content-center">
+                            <button type="submit" className="btn btn-warning">Login
+                            </button>
+                            </div>
+
+                            </form>
+                            <hr />
+                            <div className="d-grid px-4 mx-auto my-2">
+                                <Button onClick={handleGoogleLogin} className="d-flex justify-content-around align-items-center" variant="success" size="lg">
+                                <i className="fab fa-google loginIcon"></i> <span className="loginText">Login using Google</span>
+                                </Button>
+                            </div>
+                            </div>
                     </div>
-                </div>
+                            </Col>
+                            <Col sm={5}>
+                                <img src="https://image.freepik.com/free-vector/mobile-login-concept-illustration_114360-83.jpg" className="img-fluid" alt="" />
+                            </Col>
+                </Row>
             </div>
-        </div>
-      </div>
         
     );
 };

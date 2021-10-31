@@ -19,7 +19,7 @@ function App() {
 
         <AuthProvider>
           <Router>
-            <Header />
+              <Header />  
               <Switch>
                 <Route exact path="/">
                   <Home />
@@ -49,7 +49,7 @@ function App() {
                   <NotFound />
                 </Route>
               </Switch>
-            <Footer />
+            <Footer /> 
           </Router>
         </AuthProvider>
     

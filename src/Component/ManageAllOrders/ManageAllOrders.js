@@ -13,6 +13,17 @@ const ManageAllOrders = () => {
         .then(res => res.json())
         .then(data => setOrders(data))
     }, [])
+
+    const handleApprove = id => {
+        id.status ="Approved"; 
+        axios.put(`https://pacific-crag-75218.herokuapp.com/orders/${id}`)
+        .then(res => {
+            if (res.modifiedCount) {
+                alert('Approved Successfully');
+            }
+        })
+    }
+
     
     
 
@@ -61,8 +72,8 @@ const ManageAllOrders = () => {
                         <td>{order.email}</td>
                         <td>{order.address}</td>
                         <td>{order.destination}</td>
-                        <td><Button onClick={() => handleDelete(order._id)} variant="danger">Delete</Button> <Button variant="success">Aporove</Button></td>
-                        <td>Pending</td>
+                        <td><Button onClick={() => handleDelete(order._id)} variant="danger">Delete</Button> <Button onClick={() => handleApprove(order)} variant="success">Aporove</Button></td>
+                        <td>{order.status}</td>
                         
                     </tr>)
             }
