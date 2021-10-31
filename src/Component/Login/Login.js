@@ -6,7 +6,7 @@ import './Login.css';
 
 const Login = () => {
 
-    const {googleSignIn, toggolLogin, isLogin, handleNameChange, handleEmailChange, handlePasswordChange,handleregister, error} = useAuth();
+    const {googleSignIn, toggolLogin, isLogin, handleNameChange, handleEmailChange, handlePasswordChange,handleregister, isLoading, error} = useAuth();
 
     const location = useLocation();
     const history = useHistory();
@@ -15,7 +15,14 @@ const Login = () => {
 
     const handleGoogle = () => {
         googleSignIn()
-            history.push(redirect_uri)
+            .then(res => {
+                isLoading(true)
+                history.push(redirect_uri)
+            })
+            .catch((err) => console.log(err))
+            .finaly(() => {
+                isLoading(false)
+            })
     }
 
     return (
