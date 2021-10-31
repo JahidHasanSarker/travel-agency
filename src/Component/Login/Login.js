@@ -15,15 +15,14 @@ const Login = () => {
 
     const handleGoogle = () => {
         googleSignIn()
-            .then(res => {
-                isLoading(true)
+            
                 history.push(redirect_uri)
-            })
-            .catch((err) => console.log(err))
-            .finaly(() => {
-                isLoading(false)
-            })
-    }
+           
+    //         .catch((err) => console.log(err))
+    //         .finaly(() => {
+    //             isLoading(false)
+    //         })
+     }
 
     return (
 
